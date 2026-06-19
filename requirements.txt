@@ -1,3 +1,6 @@
 # Phase 0 (paper, read-only public API) needs only requests.
-# Phase 1 (testnet/mainnet orders) will add: hyperliquid-python-sdk, eth-account
 requests>=2.31.0
+# Phase 1 (testnet/mainnet orders):
+hyperliquid-python-sdk>=0.9.0
+eth-account>=0.10.0
+python-dotenv>=1.0.0

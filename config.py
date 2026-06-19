@@ -33,6 +33,22 @@ MAKER_RT_COST_PCT = 0.10     # round-trip cost, fees-only maker (taker-est was 0
 TESTNET = False              # Phase 0 reads MAINNET public data; live keys come in Phase 1
 POLL_INTERVAL_SEC = 600.0    # 10 min between samples (funding acts hourly)
 
+# ── Phase 1 LIVE (executor) ─────────────────────────────────────────────────
+# Live sizing is a SEPARATE knob from the paper NOTIONAL_PER_SIDE so a $90 first
+# deposit doesn't collide with the $300 paper model. 1x: ~half deposit per leg.
+LIVE_NOTIONAL_PER_SIDE = 40.0   # $ per leg for the $90 first live deposit (~$80 used, buffer left)
+EXECUTION_MODE = "taker"        # "taker" (market, hardened v1) | "maker" (laddered, add before scale)
+SLIPPAGE = 0.005                # market-order slippage tolerance (0.5%) — taker mode
+MIN_NOTIONAL_USD = 10.0         # HL per-order minimum
+RECONCILE_INTERVAL_SEC = 600.0  # re-check state vs real positions every 10 min
+DELTA_BAND_TOKENS_PCT = 5.0     # |spot-perp|/perp beyond this % => HALT (hedge broke)
+STOP_FILE = "STOP"              # presence of this file => graceful flatten + halt
+
+# Env var names (loaded from .env, gitignored — NEVER commit keys)
+ENV_PRIVATE_KEY = "HL_PRIVATE_KEY"        # API/agent signer key
+ENV_ACCOUNT_ADDRESS = "HL_ACCOUNT_ADDRESS"  # MASTER wallet address (not the agent)
+ENV_IS_TESTNET = "HL_IS_TESTNET"
+
 # HL public info endpoint (no key, no SDK needed for Phase 0)
 MAINNET_INFO_URL = "https://api.hyperliquid.xyz/info"
 TESTNET_INFO_URL = "https://api.hyperliquid-testnet.xyz/info"
