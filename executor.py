@@ -138,11 +138,23 @@ class Executor:
         size = (2.0 * notional_usd) / (spot_px + perp_px)
         return round(size, self.common_decimals)
 
+    def set_leverage(self):
+        """Force the perp leg to config.LEVERAGE before entry (1x = minimal liq risk)."""
+        try:
+            res = self.exchange.update_leverage(config.LEVERAGE, self.perp_coin, config.LEVERAGE_IS_CROSS)
+            logger.info(f"set leverage {config.LEVERAGE}x cross={config.LEVERAGE_IS_CROSS}: {res}")
+            return isinstance(res, dict) and res.get("status") == "ok"
+        except Exception as e:
+            logger.error(f"set_leverage failed: {e}")
+            return False
+
     def enter(self, notional_usd):
         """Atomic two-leg entry (buy spot, short perp) with rollback on partial fill.
 
         Returns dict: ok, spot_sz, perp_sz, spot_px, perp_px, detail.
         """
+        if not self.set_leverage():
+            return {"ok": False, "detail": "could not set leverage; refusing entry"}
         spot_mid, perp_mid = self.mid_prices()
         if not spot_mid or not perp_mid:
             return {"ok": False, "detail": "no book for sizing"}
