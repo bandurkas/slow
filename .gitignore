@@ -1,0 +1,16 @@
+# secrets — NEVER commit HL keys
+.env
+.env.*
+!.env.example
+
+# runtime artifacts
+*.csv
+state.json
+*.tmp
+
+# python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
