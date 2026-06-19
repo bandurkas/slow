@@ -5,7 +5,8 @@
 
 # runtime artifacts
 *.csv
-state.json
+state*.json
+*.out
 *.tmp
 
 # python
