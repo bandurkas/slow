@@ -36,7 +36,7 @@ POLL_INTERVAL_SEC = 600.0    # 10 min between samples (funding acts hourly)
 # ── Phase 1 LIVE (executor) ─────────────────────────────────────────────────
 # Live sizing is a SEPARATE knob from the paper NOTIONAL_PER_SIDE so a $90 first
 # deposit doesn't collide with the $300 paper model. 1x: ~half deposit per leg.
-LIVE_NOTIONAL_PER_SIDE = 40.0   # $ per leg for the $90 first live deposit (~$80 used, buffer left)
+LIVE_NOTIONAL_PER_SIDE = 35.0   # $ per leg for the $90 first deposit (~$70 used, ~$20 margin buffer)
 EXECUTION_MODE = "taker"        # "taker" (market, hardened v1) | "maker" (laddered, add before scale)
 SLIPPAGE = 0.005                # market-order slippage tolerance (0.5%) — taker mode
 MIN_NOTIONAL_USD = 10.0         # HL per-order minimum
